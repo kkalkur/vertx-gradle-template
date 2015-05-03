@@ -23,7 +23,8 @@ public class DeployVerticle extends Verticle {
         logger.info("DeployVerticle started");
         try {
             JsonObject apconfig = container.config();
-            container.deployModule("io.vertx~mod-work-queue~2.0.0-final", apconfig,10, new AsyncResultHandler<String>() {
+            JsonObject verticle1Config = apconfig.getObject("verticle_queue_conf");
+            container.deployModule("io.vertx~mod-work-queue~2.0.0-final", verticle1Config, 10, new AsyncResultHandler<String>() {
                 public void handle(AsyncResult<String> asyncResult) {
                     if (asyncResult.succeeded()) {
                         System.out.println("The Module has been deployed, deployment ID is " + asyncResult.result());
@@ -43,7 +44,7 @@ public class DeployVerticle extends Verticle {
             });
             */
 
-            container.deployWorkerVerticle("com.tesco.disco.OrderProcessor", null,4,true, new AsyncResultHandler<String>() {
+            container.deployWorkerVerticle("com.tesco.disco.OrderProcessor", null, 4, true, new AsyncResultHandler<String>() {
                 public void handle(AsyncResult<String> asyncResult) {
                     if (asyncResult.succeeded()) {
                         System.out.println("The OrderProcessor verticle has been deployed, deployment ID is " + asyncResult.result());
@@ -62,7 +63,18 @@ public class DeployVerticle extends Verticle {
                     }
                 }
             });
+            JsonObject verticle2Config = apconfig.getObject("verticle_watcher");
+            System.out.println(verticle2Config.toString());
 
+            container.deployVerticle("com.tesco.disco.WatcherVerticle",verticle2Config,1, new AsyncResultHandler<String>() {
+                public void handle(AsyncResult<String> asyncResult) {
+                    if (asyncResult.succeeded()) {
+                        System.out.println("The WatcherVerticle  verticle has been deployed, deployment ID is " + asyncResult.result());
+                    } else {
+                        asyncResult.cause().printStackTrace();
+                    }
+                }
+            });
 
         } catch(Exception e){
             e.printStackTrace();

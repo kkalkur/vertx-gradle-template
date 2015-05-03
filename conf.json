@@ -1,5 +1,9 @@
-// Example JSON config file
-
 {
-  "address": "test.orderQueue"
+"verticle_queue_conf": {
+"address": "test.orderQueue"
+},
+"verticle_watcher": {
+"directory": "F:/software"
 }
+}
+
