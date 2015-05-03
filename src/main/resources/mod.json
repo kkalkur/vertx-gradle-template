@@ -1,7 +1,8 @@
 {
 
   // Java verticle
-  "main":"com.mycompany.myproject.PingVerticle",
+  "main":"com.tesco.disco.DeployVerticle",
+  "includes": "io.vertx~mod-work-queue~2.0.0-final",
 
   // In this example we also provide various other versions of the main verticle, you can uncomment this and
   // play around:

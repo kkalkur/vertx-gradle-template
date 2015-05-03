@@ -39,6 +39,7 @@ public class PingVerticle extends Verticle {
       public void handle(Message<String> message) {
         message.reply("pong!");
         logger.info("Sent back pong");
+
       }
     });
 
